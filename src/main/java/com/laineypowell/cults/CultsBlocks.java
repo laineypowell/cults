@@ -1,0 +1,19 @@
+package com.laineypowell.cults;
+
+import com.laineypowell.cults.block.Squisher;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+public final class CultsBlocks {
+    public static final Block SQUISHER = new Squisher(Properties.of());
+
+    public static void register() {
+        register("squisher", SQUISHER);
+    }
+
+    public static void register(String name, Block block) {
+        Registry.register(BuiltInRegistries.BLOCK, Cults.resourceLocation(name), block);
+    }
+}
