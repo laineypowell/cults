@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "cults",
+  "version": "${version}",
+  "name": "Cults",
+  "description": "Begin cults and work with blood related technology.",
+  "authors": [
+    "laineypowell"
+  ],
+  "contact": {
+    "homepage": "hhttps://www.curseforge.com/minecraft/mc-mods/cults",
+    "sources": "https://github.com/laineypowell/cults"
+  },
+  "license": "All Rights Reserved",
+  "icon": "assets/cults/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.laineypowell.cults.Cults"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
