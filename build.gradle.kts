@@ -8,6 +8,12 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://cursemaven.com")
+        content {
+            includeGroup("curse.maven")
+        }
+    }
 }
 
 dependencies {
@@ -20,6 +26,7 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:0.18.4")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.92.7+1.20.1")
+    modImplementation("curse.maven:classic-pipes-1351745:7344365")
 }
 
 tasks.test {
