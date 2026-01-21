@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "tag": "cults:organs"
+    }
+  ],
+  "result": {
+    "item": "cults:cultist_creed"
+  },
+  "show_notification": true
+}
