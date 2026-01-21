@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "com.laineypowell.cults.Cults"
+    ],
+    "client": [
+      "com.laineypowell.cults.client.CultsClient"
     ]
   },
   "mixins": [
