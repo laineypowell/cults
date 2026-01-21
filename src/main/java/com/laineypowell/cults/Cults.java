@@ -2,6 +2,8 @@ package com.laineypowell.cults;
 
 import dev.onyxstudios.cca.api.v3.level.LevelComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.level.LevelComponentInitializer;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
@@ -10,6 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 
@@ -19,6 +22,8 @@ public final class Cults implements ModInitializer, LevelComponentInitializer {
     private static final String MOD_ID = "cults";
 
     public static final ResourceLocation SQUISH = resourceLocation("squish");
+
+    public static final Object2IntMap<Item> ITEM_TO_BLOOD = new Object2IntArrayMap<>();
 
     @Override
     public void onInitialize() {
@@ -59,10 +64,16 @@ public final class Cults implements ModInitializer, LevelComponentInitializer {
                     output.accept(CultsItems.BRAIN);
                     output.accept(CultsItems.HEART);
                     output.accept(CultsItems.CULTIST_CREED);
+                    output.accept(CultsItems.CULTIST_ROBE);
+                    output.accept(CultsItems.CULTIST_ROBE_BOTTOMS);
                     output.accept(CultsBlocks.FLESH);
                     output.accept(CultsItems.SQUISHER);
                 })
                 .build());
+
+        ITEM_TO_BLOOD.put(CultsItems.BRAIN, 120);
+        ITEM_TO_BLOOD.put(CultsItems.HEART, 120);
+        ITEM_TO_BLOOD.put(CultsItems.FLESH, 120 * 9);
     }
 
     @Override

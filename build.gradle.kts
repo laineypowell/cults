@@ -15,6 +15,7 @@ repositories {
         }
     }
     maven("https://maven.ladysnake.org/releases")
+    maven("https://maven.terraformersmc.com/")
 }
 
 dependencies {
@@ -32,6 +33,7 @@ dependencies {
 
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.3")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-level:5.2.3")
+    modImplementation("dev.emi:trinkets:3.7.1")
 }
 
 tasks.test {

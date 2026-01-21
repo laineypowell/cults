@@ -1,5 +1,6 @@
 package com.laineypowell.cults;
 
+import com.laineypowell.cults.item.CultistRobe;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
@@ -10,6 +11,8 @@ public final class CultsItems {
     public static final Item BRAIN = new Item(new Item.Properties());
     public static final Item HEART = new Item(new Item.Properties());
     public static final Item CULTIST_CREED = new Item(new Item.Properties());
+    public static final Item CULTIST_ROBE = new CultistRobe(new Item.Properties().stacksTo(1));
+    public static final Item CULTIST_ROBE_BOTTOMS = new CultistRobe(new Item.Properties().stacksTo(1));
     public static final Item FLESH = blockItem(CultsBlocks.FLESH);
     public static final Item SQUISHER = blockItem(CultsBlocks.SQUISHER);
 
@@ -17,6 +20,8 @@ public final class CultsItems {
         register("brain", BRAIN);
         register("heart", HEART);
         register("cultist_creed", CULTIST_CREED);
+        register("cultist_robe", CULTIST_ROBE);
+        register("cultist_robe_bottoms", CULTIST_ROBE_BOTTOMS);
         register("flesh", FLESH);
         register("squisher", SQUISHER);
     }
