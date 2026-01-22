@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public final class CultsBlocks {
-    public static final Block FLESH = new Flesh(Properties.of().randomTicks().sound(SoundType.SLIME_BLOCK));
+    public static final Block FLESH = new Flesh(Properties.of().strength(0.25f, 0.125f).randomTicks().sound(SoundType.SLIME_BLOCK));
     public static final Block SQUISHER = new Squisher(Properties.of());
 
     public static void register() {

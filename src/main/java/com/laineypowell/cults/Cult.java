@@ -12,8 +12,8 @@ import java.util.UUID;
 public final class Cult {
     private final Map<UUID, Cultist> cultists = new HashMap<>();
 
-    private String name;
-    private String displayName;
+    public String name;
+    public String displayName;
 
     public void add(GameProfile gameProfile) {
         cultists.put(gameProfile.getId(), new Cultist(gameProfile.getName()));
@@ -64,6 +64,19 @@ public final class Cult {
             tag.putString("Name", name);
             return tag;
         }
+
+    }
+
+    public static boolean invalidateName(String name) {
+        for (var c : name.toCharArray()) {
+            if ((c >= 'a' && c <= 'z') || c == '-' || c == '_') {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
 
     }
 

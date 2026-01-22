@@ -44,4 +44,16 @@ public final class CultComponent implements AutoSyncedComponent {
         compoundTag.put("Entries", entries);
 
     }
+
+    public boolean has(String name) {
+        return cults.containsKey(name);
+    }
+
+    public void add(String name, Cult cult) {
+        cults.put(name, cult);
+    }
+
+    public void remove(String name) {
+        cults.remove(name);
+    }
 }
