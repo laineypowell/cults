@@ -5,11 +5,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class CultComponent implements AutoSyncedComponent {
-    private final Map<String, Cult> cults = new HashMap<>();
+    private final Map<String, Cult> cults = new ConcurrentHashMap<>();
 
     @Override
     public void readFromNbt(CompoundTag compoundTag) {
@@ -56,4 +57,9 @@ public final class CultComponent implements AutoSyncedComponent {
     public void remove(String name) {
         cults.remove(name);
     }
+
+    public Set<String> getNames() {
+        return cults.keySet();
+    }
+
 }

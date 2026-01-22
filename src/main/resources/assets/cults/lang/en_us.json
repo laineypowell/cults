@@ -6,7 +6,9 @@
   "item.cults.cultist_robe_bottoms": "Cultist Robe Bottoms",
   "itemGroup.cults": "Cults",
   "block.cults.flesh": "Flesh",
-  "command.cults.create.invalid_name": "Failed to create cult. Cult name %s must have characters [a-z, _, -]",
-  "command.cults.create.duplicate_name": "Failed to create cult. Cult named %s already exists",
-  "command.cults.create.success": "Successfully created cult %s"
+  "command.cult.create.invalid_name": "Failed to create cult. \"%s\" must have characters [a-z, _, -]",
+  "command.cult.create.duplicate_name": "Failed to create cult. \"%s\" already exists",
+  "command.cult.create.success": "Successfully created \"%s\"",
+  "command.cult.destroy.unknown": "Failed to destroy cult. \"%s\" does not exist",
+  "command.cult.destroy.success": "Successfully destroyed \"%s\""
 }

@@ -1,8 +1,11 @@
 package com.laineypowell.cults;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
 import dev.onyxstudios.cca.api.v3.level.LevelComponentFactoryRegistry;
@@ -13,6 +16,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +28,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public final class Cults implements ModInitializer, LevelComponentInitializer {
     private static final String MOD_ID = "cults";
@@ -85,19 +90,19 @@ public final class Cults implements ModInitializer, LevelComponentInitializer {
         ITEM_TO_BLOOD.put(CultsItems.FLESH, 120 * 9);
 
         CommandRegistrationCallback.EVENT.register((commandDispatcher, commandBuildContext, commandSelection) -> {
-            var cults = Commands.literal("cults").requires(commandSourceStack -> commandSourceStack.hasPermission(2));
+            var cultCommand = Commands.literal("cult").requires(commandSourceStack -> commandSourceStack.hasPermission(2));
 
-            commandDispatcher.register(cults.then(Commands.literal("create").then(Commands.argument("name", StringArgumentType.string()).then(Commands.argument("title", StringArgumentType.string()).executes(context -> {
+            commandDispatcher.register(cultCommand.then(Commands.literal("create").then(Commands.argument("name", StringArgumentType.string()).then(Commands.argument("title", StringArgumentType.string()).executes(context -> {
                 var name = context.getArgument("name", String.class);
                 var source = context.getSource();
                 if (Cult.invalidateName(name)) {
-                    source.sendFailure(Component.translatable("command.cults.create.invalid_name", name));
+                    source.sendFailure(Component.translatable("command.cult.create.invalid_name", name));
                     return -1;
                 }
 
                 var component = context.getSource().getLevel().getLevelData().getComponent(CULT);
                 if (component.has(name)) {
-                    source.sendFailure(Component.translatable("command.cults.create.duplicate_name", name));
+                    source.sendFailure(Component.translatable("command.cult.create.duplicate_name", name));
                     return -1;
                 }
 
@@ -106,26 +111,29 @@ public final class Cults implements ModInitializer, LevelComponentInitializer {
                 cult.displayName = context.getArgument("title", String.class);
                 component.add(name, cult);
 
-                source.sendSuccess(() -> Component.translatable("command.cults.create.success", name), true);
+                source.sendSuccess(() -> Component.translatable("command.cult.create.success", name), true);
                 return 1;
             })))));
 
-            commandDispatcher.register(cults.then(Commands.literal("destroy").then(Commands.argument("name", StringArgumentType.string()).executes(context -> {
+            var suggestionProvider = suggestionProvider();
+
+            commandDispatcher.register(cultCommand.then(Commands.literal("destroy").then(Commands.argument("name", StringArgumentType.string()).suggests(suggestionProvider).executes(context -> {
                 var name = context.getArgument("name", String.class);
                 var source = context.getSource();
 
                 var component = context.getSource().getLevel().getLevelData().getComponent(CULT);
                 if (component.has(name)) {
 
-                    source.sendSuccess(() -> Component.translatable("command.cults.destroy.success", name), true);
+                    source.sendSuccess(() -> Component.translatable("command.cult.destroy.success", name), true);
                     component.remove(name);
                     return 1;
                 }
 
-                source.sendFailure(Component.translatable("command.cults.destroy.unknown", name));
+                source.sendFailure(Component.translatable("command.cult.destroy.unknown", name));
                 return -1;
             }))));
-            commandDispatcher.register(cults.then(Commands.literal("view")));
+
+            commandDispatcher.register(cultCommand.then(Commands.literal("view").then(Commands.argument("name", StringArgumentType.string()).suggests(suggestionProvider))));
         });
     }
 
@@ -137,4 +145,16 @@ public final class Cults implements ModInitializer, LevelComponentInitializer {
     public static ResourceLocation resourceLocation(String name) {
         return new ResourceLocation("cults", name);
     }
+
+    public static SuggestionProvider<CommandSourceStack> suggestionProvider() {
+        return (context, builder) -> {
+            var names = context.getSource().getLevel().getLevelData().getComponent(CULT).getNames();
+            for (var name : names) {
+                builder.suggest(name);
+            }
+
+            return builder.buildFuture();
+        };
+    }
+
 }
