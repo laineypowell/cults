@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.laineypowell"
-version = "1.0-SNAPSHOT"
+version = "1.21.1-1.0"
 
 repositories {
     mavenCentral()
@@ -16,6 +16,7 @@ repositories {
     }
     maven("https://maven.ladysnake.org/releases")
     maven("https://maven.terraformersmc.com/")
+    maven("https://mod-buildcraft.com/maven")
 }
 
 dependencies {
@@ -23,19 +24,38 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    minecraft("com.mojang:minecraft:1.20.1")
+    minecraft("com.mojang:minecraft:1.21.1")
     mappings(loom.officialMojangMappings())
 
     modImplementation("net.fabricmc:fabric-loader:0.18.4")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.92.7+1.20.1")
-    modRuntimeOnly("curse.maven:classic-pipes-1351745:7344365")
-    modRuntimeOnly("curse.maven:jei-238222:7391694")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.116.8+1.21.1")
 
-    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.3")
-    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-level:5.2.3")
-    modImplementation("dev.emi:trinkets:3.7.1")
+    modRuntimeOnly("alexiil.mc.mod:simplepipes-all:0.13.2")
+    modRuntimeOnly("alexiil.mc.mod:simplepipes-base:0.13.2")
+
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.3")
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-level:6.1.3")
+    // modImplementation("dev.emi:trinkets:3.7.1")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+fun JavaPluginExtension.javaVersion(version: JavaVersion, languageVersion: JavaLanguageVersion) {
+    sourceCompatibility = version
+    targetCompatibility = version
+    toolchain.languageVersion.set(languageVersion)
+}
+
+java {
+    javaVersion(JavaVersion.VERSION_21, JavaLanguageVersion.of(21))
+}
+
+tasks.processResources {
+    inputs.property("version", project.version)
+
+    filesMatching("fabric.mod.json") {
+        expand(mapOf("version" to inputs.properties["version"]))
+    }
 }

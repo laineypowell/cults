@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "cults:block/flesh_top",
-    "side": "cults:block/flesh_other"
-  }
-}

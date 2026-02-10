@@ -1,2 +1,2 @@
 # License
-All Rights Reserved Lainey Powell 2026
+All Rights Reserved (c) Lainey Powell 2026
